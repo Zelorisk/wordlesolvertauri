@@ -89,13 +89,17 @@ temp/
 logs
 *.log
 
-# Electron-specific
+# Electron-specific (legacy)
 out/
 dist-electron/
 release-builds/
 app/dist/
 app-builds/
 builds/
+
+# Tauri-specific
+src-tauri/target/
+src-tauri/WixTools/
 
 # OS generated files
 .DS_Store

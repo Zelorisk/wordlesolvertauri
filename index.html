@@ -5,34 +5,48 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Wordle Solver</title>
         <link rel="stylesheet" href="css/styles.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     </head>
     <body>
         <div class="app-container">
-            <div class="background-shapes">
-                <div class="shape shape-1"></div>
-                <div class="shape shape-2"></div>
-                <div class="shape shape-3"></div>
-                <div class="shape shape-4"></div>
-                <div class="shape shape-5"></div>
-            </div>
+            <!-- Animated grid background -->
+            <div class="grid-background"></div>
+            
+            <!-- Subtle gradient overlay -->
+            <div class="gradient-overlay"></div>
 
             <header class="header">
                 <div class="logo">
-                    <div class="logo-icon"></div>
-                    <span>Wordle Solver</span>
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="logo-text">Wordle Solver</span>
                 </div>
+                <div class="header-subtitle">✧ Intelligent Word Analysis ✧</div>
             </header>
 
             <main class="main-content">
-                <div class="content-card">
-                    <h1 class="title">SMART WORDLE SOLVER</h1>
-                    <p class="subtitle">
-                        Enter your guesses and get optimal suggestions
+                <div class="hero-section">
+                    <h1 class="hero-title">
+                        <span class="title-line">Smart Wordle</span>
+                        <span class="title-line gradient-text">Solver</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Enter your guesses and receive optimal suggestions
                     </p>
+                </div>
 
+                <div class="content-wrapper">
                     <div class="game-section">
-                        <div class="guesses-container">
-                            <h3>Your Guesses</h3>
+                        <div class="section-card guesses-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Your Guesses</h3>
+                                <div class="card-divider"></div>
+                            </div>
                             <div class="guess-rows">
                                 <div class="guess-row" data-row="0">
                                     <div class="letter-input">
@@ -118,8 +132,11 @@
                             </button>
                         </div>
 
-                        <div class="suggestions-container">
-                            <h3>Suggested Words</h3>
+                        <div class="section-card suggestions-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Suggested Words</h3>
+                                <div class="card-divider"></div>
+                            </div>
                             <div class="suggestions-list" id="suggestionsList">
                                 <div class="suggestion-item">
                                     Start by entering your first guess
@@ -133,22 +150,48 @@
 
                     <div class="stats-section">
                         <div class="stat-card">
-                            <div class="stat-number" id="totalWords">12972</div>
-                            <div class="stat-label">Total Words</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="possibleWords">
-                                12972
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </div>
-                            <div class="stat-label">Possible Words</div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="totalWords">12972</div>
+                                <div class="stat-label">Total Words</div>
+                            </div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number" id="guessCount">0</div>
-                            <div class="stat-label">Guesses Made</div>
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="possibleWords">12972</div>
+                                <div class="stat-label">Possible Words</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <polyline points="22 4 12 14.01 9 11.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="guessCount">0</div>
+                                <div class="stat-label">Guesses Made</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </main>
+
+            <footer class="footer">
+                <p>Built with Tauri • Designed for efficiency</p>
+            </footer>
         </div>
 
         <script src="js/words.js"></script>
