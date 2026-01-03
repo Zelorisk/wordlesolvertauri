@@ -19,7 +19,6 @@ class WordleApp {
     } catch (error) {
       console.error("Failed to initialize app:", error);
       this.showMessage("Failed to load word lists. Using fallback.", "error");
-      // Still try to initialize with fallback
       await this.wordsManager.initializeFallback();
       await this.solver.initialize();
       this.initialized = true;
@@ -116,10 +115,8 @@ class WordleApp {
   }
 
   updateStatusStyling(select, container, status) {
-    // Update select styling
     select.setAttribute("data-status", status);
 
-    // Update container class for letter styling
     container.className = container.className.replace(/status-\w+/g, "");
     if (status !== "unknown") {
       container.classList.add(`status-${status}`);
@@ -192,7 +189,6 @@ class WordleApp {
 
     row.querySelectorAll(".status").forEach((select) => {
       select.addEventListener("change", (e) => this.handleStatusChange(e));
-      // Initialize styling for existing status
       const container = select.parentElement;
       this.updateStatusStyling(select, container, select.value);
     });
@@ -229,7 +225,6 @@ class WordleApp {
       return;
     }
 
-    // Ensure WordsManager is initialized before validation
     if (!this.initialized) {
       this.showMessage("App is still loading...", "info");
       return;
@@ -263,7 +258,6 @@ class WordleApp {
         "Error validating word, but proceeding anyway",
         "warning",
       );
-      // Continue with the guess even if validation fails
     }
 
     const existingGuessIndex = this.guesses.findIndex((g) => g.word === word);
@@ -468,7 +462,6 @@ let app;
 document.addEventListener("DOMContentLoaded", async () => {
   app = new WordleApp();
 
-  // Wait for initialization and then set up the first word suggestion
   setTimeout(async () => {
     if (app.initialized) {
       const firstWord = await app.getOptimalFirstWord();

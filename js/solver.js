@@ -15,7 +15,7 @@ class WordleSolver {
     await this.wordsManager.initialize();
     this.allWords = await this.wordsManager.getAllWords();
     this.answerWords = await this.wordsManager.getAnswerWords();
-    this.possibleWords = [...this.answerWords]; // Start with answer words only
+    this.possibleWords = [...this.answerWords];
     this.letterFrequency = this.calculateLetterFrequency();
     this.initialized = true;
   }
@@ -54,7 +54,6 @@ class WordleSolver {
       }
     }
 
-    // Bonus for common starting letters
     const firstLetter = word.toLowerCase()[0];
     const commonStarters = ["s", "c", "b", "p", "t", "f", "g", "d", "m", "h"];
     if (commonStarters.includes(firstLetter)) {
@@ -74,7 +73,6 @@ class WordleSolver {
       return this.guesses.every((guess) => this.isWordCompatible(word, guess));
     });
 
-    // Recalculate letter frequency with updated possible words
     this.letterFrequency = this.calculateLetterFrequency();
   }
 
@@ -83,7 +81,6 @@ class WordleSolver {
     const guessWord = guess.word.toLowerCase();
     const feedback = guess.feedback;
 
-    // Count letters in both words
     const wordLetterCount = {};
     const guessLetterCount = {};
 
@@ -95,7 +92,6 @@ class WordleSolver {
       guessLetterCount[letter] = (guessLetterCount[letter] || 0) + 1;
     }
 
-    // First pass: check correct positions
     for (let i = 0; i < 5; i++) {
       const guessLetter = guessWord[i];
       const wordLetter = wordLower[i];
@@ -108,7 +104,6 @@ class WordleSolver {
       }
     }
 
-    // Second pass: check present/absent with proper letter counting
     const requiredLetters = {};
     const forbiddenLetters = new Set();
 
@@ -120,12 +115,10 @@ class WordleSolver {
         requiredLetters[guessLetter] = (requiredLetters[guessLetter] || 0) + 1;
       } else if (status === "present") {
         requiredLetters[guessLetter] = (requiredLetters[guessLetter] || 0) + 1;
-        // Letter must not be in this position
         if (wordLower[i] === guessLetter) {
           return false;
         }
       } else if (status === "absent") {
-        // Count how many of this letter are marked as correct or present
         let requiredCount = 0;
         for (let j = 0; j < 5; j++) {
           if (
@@ -137,10 +130,8 @@ class WordleSolver {
         }
 
         if (requiredCount === 0) {
-          // Letter should not appear at all
           forbiddenLetters.add(guessLetter);
         } else {
-          // Letter should appear exactly requiredCount times
           if ((wordLetterCount[guessLetter] || 0) !== requiredCount) {
             return false;
           }
@@ -148,14 +139,12 @@ class WordleSolver {
       }
     }
 
-    // Check if word contains forbidden letters
     for (let letter of forbiddenLetters) {
       if (wordLetterCount[letter] > 0) {
         return false;
       }
     }
 
-    // Check if word contains required letters in correct amounts
     for (let [letter, count] of Object.entries(requiredLetters)) {
       if ((wordLetterCount[letter] || 0) < count) {
         return false;
@@ -176,7 +165,6 @@ class WordleSolver {
       return this.possibleWords;
     }
 
-    // Use answer words only for suggestions (more likely to be correct)
     const wordsToScore =
       this.possibleWords.length > 50
         ? this.possibleWords.slice(0, 50)
@@ -195,7 +183,6 @@ class WordleSolver {
   async getOptimalFirstGuess() {
     await this.ensureInitialized();
 
-    // Best starting words based on letter frequency analysis
     const bestStarters = [
       "slate",
       "adieu",
@@ -214,7 +201,7 @@ class WordleSolver {
       }
     }
 
-    return "slate"; // Default fallback
+    return "slate";
   }
 
   async getSuggestions(constraints) {
@@ -280,13 +267,11 @@ class WordleSolver {
     const guessWord = guess.toLowerCase();
     const feedback = new Array(5).fill("absent");
 
-    // Count letters in target
     const targetCounts = {};
     for (let letter of target) {
       targetCounts[letter] = (targetCounts[letter] || 0) + 1;
     }
 
-    // First pass: mark correct positions
     for (let i = 0; i < 5; i++) {
       if (guessWord[i] === target[i]) {
         feedback[i] = "correct";
@@ -294,7 +279,6 @@ class WordleSolver {
       }
     }
 
-    // Second pass: mark present positions
     for (let i = 0; i < 5; i++) {
       if (feedback[i] === "absent" && targetCounts[guessWord[i]] > 0) {
         feedback[i] = "present";
@@ -334,7 +318,6 @@ class WordleSolver {
       return this.possibleWords[0];
     }
 
-    // For larger sets, use a heuristic approach
     const suggestions = await this.getBestGuesses(1);
     return suggestions[0] || this.possibleWords[0];
   }

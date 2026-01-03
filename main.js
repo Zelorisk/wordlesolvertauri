@@ -29,7 +29,6 @@ function createWindow() {
     mainWindow = null;
   });
 
-  // Always open dev tools for debugging
   mainWindow.webContents.openDevTools();
 }
 
